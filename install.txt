@@ -1,0 +1,10 @@
+ajustar o .env para o sistema usado
+
+composer install
+
+php artisan key:generate
+
+php artisan migrate
+
+php artisan make:filament-user
+
