@@ -88,6 +88,7 @@ class QuestionsRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
+                    ->label('Criar Pergunta')
                     ->visible(fn () => $this->ownerRecord->isDraft()),
             ])
             ->recordActions([

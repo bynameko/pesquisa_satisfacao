@@ -24,6 +24,8 @@ class InvitesRelationManager extends RelationManager
 {
     protected static string $relationship = 'invites';
 
+    protected static ?string $title = 'Convites';
+
     public function form(Schema $schema): Schema
     {
         return $schema->components([]);
