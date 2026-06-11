@@ -1,59 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Quero continuar o planejamento de um sistema de pesquisas de satisfação desenvolvido em PHP 8.2, Laravel 12.6, Filament 5.6 e MySQL (MariaDB 10.4).
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Decisões já tomadas:
 
-## About Laravel
+* O sistema terá um painel administrativo em Filament.
+* Os clientes responderão pesquisas através de uma página pública, sem login.
+* O administrador poderá criar pesquisas, perguntas e definir datas de validade.
+* O sistema deverá gerar relatórios em PDF e CSV com filtros por período.
+* Utilizaremos tokens únicos para impedir respostas duplicadas.
+* Não haverá cadastro prévio de clientes para responder pesquisas.
+* O administrador poderá gerar uma quantidade de links únicos para cada pesquisa.
+* Cada link representa um convite único.
+* O cliente acessa o link, informa nome e e-mail, responde a pesquisa e o link é marcado como utilizado.
+* Após respondido, o mesmo link não poderá mais ser utilizado.
+* A estrutura principal será:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Pesquisa
+├── Perguntas
+├── Convites (links únicos)
+│   ├── token
+│   ├── status
+│   └── respondido_em
+├── Respondente
+│   ├── nome
+│   └── email
+└── Respostas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Requisitos desejados:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Interface extremamente simples para o respondente.
+* Compatível com celular.
+* Possibilidade de copiar links individuais.
+* Possibilidade de gerar QR Codes.
+* Dashboard com estatísticas.
+* Exportação CSV e PDF.
+* Controle de validade das pesquisas.
+* Possibilidade de gerar centenas ou milhares de links por pesquisa.
 
-## Learning Laravel
+A partir dessas definições, quero continuar o projeto elaborando:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. Modelagem completa do banco de dados.
+2. Migrations Laravel.
+3. Models e relacionamentos Eloquent.
+4. Estrutura dos Resources do Filament.
+5. Fluxo completo da página pública de resposta.
+6. Dashboard administrativo.
+7. Estratégia de geração de relatórios.
+8. Estrutura do projeto seguindo boas práticas para crescimento futuro.
+9. Planejamento do MVP e das funcionalidades para versões futuras.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Esse projeto será armazenado no github.
+E todas essas etapas serão desenvolvidas em prompts separados.
