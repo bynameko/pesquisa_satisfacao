@@ -14,16 +14,16 @@ Decisões já tomadas:
 * Após respondido, o mesmo link não poderá mais ser utilizado.
 * A estrutura principal será:
 
-Pesquisa
-├── Perguntas
-├── Convites (links únicos)
-│   ├── token
-│   ├── status
-│   └── respondido_em
-├── Respondente
-│   ├── nome
-│   └── email
-└── Respostas
+Pesquisa  
+├── Perguntas  
+├── Convites (links únicos)  
+│   ├── token  
+│   ├── status  
+│   └── respondido_em  
+├── Respondente  
+│   ├── nome  
+│   └── email  
+└── Respostas  
 
 Requisitos desejados:
 
@@ -49,4 +49,3 @@ A partir dessas definições, quero continuar o projeto elaborando:
 9. Planejamento do MVP e das funcionalidades para versões futuras.
 
 Esse projeto será armazenado no github.
-E todas essas etapas serão desenvolvidas em prompts separados.
