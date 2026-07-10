@@ -1,51 +1,103 @@
-Quero continuar o planejamento de um sistema de pesquisas de satisfação desenvolvido em PHP 8.2, Laravel 12.6, Filament 5.6 e MySQL (MariaDB 10.4).
+# Sistema de Pesquisa de Satisfação
 
-Decisões já tomadas:
+Sistema web desenvolvido com foco na criação, gerenciamento e análise de pesquisas de satisfação, permitindo que empresas coletem feedback de clientes por meio de convites individuais e acompanhem os resultados através de um painel administrativo.
 
-* O sistema terá um painel administrativo em Filament.
-* Os clientes responderão pesquisas através de uma página pública, sem login.
-* O administrador poderá criar pesquisas, perguntas e definir datas de validade.
-* O sistema deverá gerar relatórios em PDF e CSV com filtros por período.
-* Utilizaremos tokens únicos para impedir respostas duplicadas.
-* Não haverá cadastro prévio de clientes para responder pesquisas.
-* O administrador poderá gerar uma quantidade de links únicos para cada pesquisa.
-* Cada link representa um convite único.
-* O cliente acessa o link, informa nome e e-mail, responde a pesquisa e o link é marcado como utilizado.
-* Após respondido, o mesmo link não poderá mais ser utilizado.
-* A estrutura principal será:
+O projeto foi desenvolvido utilizando Laravel e Filament, seguindo boas práticas de arquitetura para facilitar manutenção, escalabilidade e evolução futura.
 
-Pesquisa  
-├── Perguntas  
-├── Convites (links únicos)  
-│   ├── token  
-│   ├── status  
-│   └── respondido_em  
-├── Respondente  
-│   ├── nome  
-│   └── email  
-└── Respostas  
+---
 
-Requisitos desejados:
+## Objetivos do Projeto
 
-* Interface extremamente simples para o respondente.
-* Compatível com celular.
-* Possibilidade de copiar links individuais.
-* Possibilidade de gerar QR Codes.
-* Dashboard com estatísticas.
-* Exportação CSV e PDF.
-* Controle de validade das pesquisas.
-* Possibilidade de gerar centenas ou milhares de links por pesquisa.
+* Disponibilizar pesquisas através de links únicos.
+* Evitar respostas duplicadas utilizando tokens exclusivos.
+* Fornecer uma interface simples e responsiva para os respondentes.
+* Centralizar a administração das pesquisas em um painel moderno.
+* Gerar relatórios para análise dos resultados.
 
-A partir dessas definições, quero continuar o projeto elaborando:
+---
 
-1. Modelagem completa do banco de dados.
-2. Migrations Laravel.
-3. Models e relacionamentos Eloquent.
-4. Estrutura dos Resources do Filament.
-5. Fluxo completo da página pública de resposta.
-6. Dashboard administrativo.
-7. Estratégia de geração de relatórios.
-8. Estrutura do projeto seguindo boas práticas para crescimento futuro.
-9. Planejamento do MVP e das funcionalidades para versões futuras.
+## Tecnologias
 
-Esse projeto será armazenado no github.
+* PHP 8.2
+* Laravel 12
+* Filament 5
+* MariaDB / MySQL
+* Blade
+* Vite
+* Tailwind CSS
+
+---
+
+## Funcionalidades
+
+### Painel Administrativo
+
+* Cadastro de pesquisas
+* Cadastro de perguntas
+* Geração de convites individuais
+* Controle de validade das pesquisas
+* Dashboard com estatísticas
+* Exportação em PDF
+* Exportação em CSV
+
+### Área Pública
+
+* Resposta sem necessidade de login
+* Identificação do respondente
+* Interface otimizada para dispositivos móveis
+* Utilização de token único por convite
+* Bloqueio automático de respostas duplicadas
+
+---
+
+## Arquitetura
+
+O projeto foi planejado seguindo uma estrutura modular baseada em:
+
+* Eloquent ORM
+* Migrations
+* Resources do Filament
+* Services
+* Policies
+* Boas práticas do Laravel
+
+O objetivo é manter o código organizado e preparado para futuras expansões.
+
+---
+
+## Roadmap
+
+### MVP
+
+* Cadastro de pesquisas
+* Cadastro de perguntas
+* Geração de convites
+* Página pública
+* Dashboard
+* Relatórios
+
+### Futuras versões
+
+* Pesquisas com lógica condicional
+* Perguntas em múltiplos idiomas
+* API REST
+* Integração com ERP
+* Envio automático de convites por e-mail
+* Dashboards avançados
+* Autenticação SSO
+
+---
+
+## Objetivo do Repositório
+
+Este projeto faz parte do meu portfólio profissional e demonstra a utilização do ecossistema Laravel para desenvolvimento de aplicações corporativas com foco em organização do código, escalabilidade e experiência do usuário.
+
+---
+
+## Autor
+
+**Jonathan Pellin**
+
+Especialista em Tecnologia da Informação
+
+Desenvolvimento de Software • Infraestrutura • Arquitetura de Soluções
