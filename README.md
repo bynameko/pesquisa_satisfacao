@@ -39,6 +39,7 @@ O projeto foi desenvolvido utilizando Laravel e Filament, seguindo boas prática
 * Dashboard com estatísticas
 * Exportação em PDF
 * Exportação em CSV
+* Gerenciamento de usuários
 
 ### Área Pública
 

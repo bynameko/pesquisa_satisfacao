@@ -43,13 +43,15 @@ class QuestionsRelationManager extends RelationManager
                     ->required(),
 
                 Toggle::make('required')
-                    ->label('Obrigatória')
+                    ->label('Resposta Obrigatória')
                     ->default(true),
 
                 TextInput::make('sort_order')
                     ->label('Ordem')
                     ->numeric()
-                    ->default(0),
+                    ->default(fn () => ($this->ownerRecord
+                            ->questions()
+                            ->max('sort_order') ?? 1) + 1),
 
                 TextInput::make('placeholder')
                     ->label('Placeholder')
@@ -76,7 +78,7 @@ class QuestionsRelationManager extends RelationManager
                     ->label('Tipo')
                     ->badge()
                     ->formatStateUsing(
-                        fn (QuestionType $state) => $state->label()
+                        fn (QuestionType $state) => $state->getLabel()
                     ),
 
                 IconColumn::make('required')

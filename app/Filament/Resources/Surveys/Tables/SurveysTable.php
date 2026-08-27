@@ -8,12 +8,13 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use App\Services\SurveyCsvExporter;
 use App\Services\SurveyPdfExporter;
@@ -34,7 +35,7 @@ class SurveysTable
                     ->label('Status')
                     ->badge()
                     ->formatStateUsing(
-                        fn (SurveyStatus $state): string => $state->label()
+                        fn (SurveyStatus $state): string => $state->getLabel()
                     )
                     ->color(
                         fn (SurveyStatus $state): string => match ($state) {
@@ -126,6 +127,8 @@ class SurveysTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
+                ViewAction::make(),
+                
                 EditAction::make(),
 
                 DeleteAction::make()
@@ -147,6 +150,7 @@ class SurveysTable
                     ->icon('heroicon-o-document-duplicate')
                     ->color('gray')
                     ->requiresConfirmation()
+                    ->authorize(fn ($record) => auth()->user()->can('duplicate', $record))
                     ->action(function ($record) {
 
                         $newSurvey = $record->duplicate();
@@ -164,6 +168,7 @@ class SurveysTable
                     ->color('success')
                     ->visible(fn ($record): bool => $record !== null && $record->isDraft())
                     ->requiresConfirmation()
+                    ->authorize(fn ($record) => auth()->user()->can('activate', $record))
                     ->action(function ($record) {
 
                         if (! $record->hasQuestions()) {
@@ -192,6 +197,7 @@ class SurveysTable
                     ->color('danger')
                     ->visible(fn ($record) => $record?->isActive() ?? false)
                     ->requiresConfirmation()
+                    ->authorize(fn ($record) => auth()->user()->can('close', $record))
                     ->action(function ($record) {
 
                         $record->update([
@@ -210,8 +216,9 @@ class SurveysTable
                     ->color('success')
                     ->action(function ($record) {
 
-                        $file = app(SurveyCsvExporter::class)
-                            ->export($record);
+                        $file = app(
+                                SurveyCsvExporter::class
+                            )->export($record);
 
                         return response()->download($file);
                     }),
@@ -220,6 +227,7 @@ class SurveysTable
                     ->label('PDF')
                     ->icon('heroicon-o-document')
                     ->color('danger')
+                    ->authorize(fn ($record) => auth()->user()->can('export', $record))
                     ->action(function ($record) {
                         $file = app(
                             SurveyPdfExporter::class

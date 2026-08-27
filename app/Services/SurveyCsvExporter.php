@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\QuestionType;
 use App\Models\Survey;
 use Illuminate\Support\Str;
 
@@ -46,12 +47,24 @@ class SurveyCsvExporter
 
         fputcsv($handle, [
             'Status',
-            $survey->status->value,
+            $survey->status->getLabel(),
         ], ';');
 
         fputcsv($handle, [
             'Criada em',
             $survey->created_at?->format('d/m/Y H:i'),
+        ], ';');
+
+        fputcsv($handle, [], ';');
+
+        fputcsv($handle, [
+            'Data de início',
+            $survey->starts_at?->format('d/m/Y H:i'),
+        ], ';');
+
+        fputcsv($handle, [
+            'Data de conclusão',
+            $survey->ends_at?->format('d/m/Y H:i'),
         ], ';');
 
         fputcsv($handle, [], ';');
@@ -87,6 +100,45 @@ class SurveyCsvExporter
             "{$responseRate}%",
         ], ';');
 
+        $ratingQuestions = $survey->questions->whereIn('type', [
+            QuestionType::Rating5,
+            QuestionType::Rating10,
+        ]);
+
+        fputcsv($handle, [], ';');
+
+        $averages = [];
+
+        foreach ($ratingQuestions as $question) {
+
+            $answers = $this->answers($survey, $question->id)
+                ->map(fn ($value) => (float) $value);
+
+            if ($answers->isEmpty()) {
+                continue;
+            }
+
+            $average = $answers->avg();
+
+            // Normaliza todas as notas para a escala de 1 a 5
+            $average = match ($question->type) {
+                QuestionType::Rating5 => $average,
+                QuestionType::Rating10 => ($average / 10) * 5,
+                default => null,
+            };
+
+            $averages[] = $average;
+        }
+
+        $average = count($averages)
+                ? round(array_sum($averages) / count($averages), 2)
+                : null;
+
+        fputcsv($handle, [
+            'Nota média',
+            "{$average} / 5",
+        ], ';');
+
         fputcsv($handle, [], ';');
 
         /*
@@ -107,7 +159,7 @@ class SurveyCsvExporter
 
             fputcsv($handle, [
                 $invite->token,
-                $invite->status->value,
+                $invite->status->getLabel(),
                 $invite->responded_at?->format('d/m/Y H:i'),
             ], ';');
         }
@@ -129,7 +181,7 @@ class SurveyCsvExporter
         ];
 
         foreach ($survey->questions->sortBy('sort_order') as $question) {
-            $headers[] = $question->title;
+            $headers[] = "{$question->title} | {$question->type?->getLabel()}";
         }
 
         fputcsv($handle, $headers, ';');
@@ -155,5 +207,13 @@ class SurveyCsvExporter
         fclose($handle);
 
         return $file;
+    }
+
+    private function answers(Survey $survey, int $questionId)
+    {
+        return $survey->responses
+            ->flatMap->items
+            ->where('question_id', $questionId)
+            ->pluck('answer');
     }
 }

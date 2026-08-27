@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-enum SurveyStatus: string
+use Filament\Support\Contracts\HasLabel;
+
+enum SurveyStatus: string implements HasLabel
 {
     case Draft = 'draft';
     case Active = 'active';
     case Closed = 'closed';
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::Draft => 'Rascunho',

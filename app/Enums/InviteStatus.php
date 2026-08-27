@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-enum InviteStatus: string
+use Filament\Support\Contracts\HasLabel;
+
+enum InviteStatus: string implements HasLabel
 {
     case Pending = 'pending';
     case Answered = 'answered';
     case Expired = 'expired';
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::Pending => 'Pendente',

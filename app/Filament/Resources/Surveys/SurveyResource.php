@@ -23,7 +23,7 @@ class SurveyResource extends Resource
 {
     protected static ?string $model = Survey::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ChartPie;
 
     public static function form(Schema $schema): Schema
     {
@@ -56,6 +56,7 @@ class SurveyResource extends Resource
         return [
             'index' => ListSurveys::route('/'),
             'create' => CreateSurvey::route('/create'),
+            'view' => Pages\ViewSurvey::route('/{record}'),
             'edit' => EditSurvey::route('/{record}/edit'),
         ];
     }
@@ -81,10 +82,5 @@ class SurveyResource extends Resource
     public static function getNavigationLabel(): string
     {
         return 'Pesquisas';
-    }
-
-    public static function getNavigationIcon(): string
-    {
-        return 'heroicon-o-chart-pie';
     }
 }
