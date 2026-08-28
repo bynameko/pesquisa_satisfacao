@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Enums\QuestionType;
 use App\Models\Survey;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class SurveyPdfExporter
 {
     public function export(Survey $survey): string
     {
+        $directory = storage_path('app/exports');
+
         $survey->load([
             'questions',
             'responses.items.question',
@@ -30,12 +33,15 @@ class SurveyPdfExporter
             ]
         );
 
-        $file = storage_path(
-            'app/exports/pesquisa ' .
-            $survey->title .
-            ' - ' .
-            $survey->id .
-            '.pdf'
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $file = sprintf(
+            '%s/%s-%s.pdf',
+            $directory,
+            Str::slug($survey->title),
+            $survey->id
         );
 
         $pdf->save($file);
